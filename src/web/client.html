@@ -3,19 +3,149 @@
 <head>
   <meta charset="utf-8" />
   <title>OFC Pineapple Tourney Test</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <style>
-    body { font-family: ui-sans-serif, system-ui, Arial, sans-serif; margin: 16px; }
-    h2 { margin: 8px 0; }
-    fieldset { border: 1px solid #ddd; padding: 12px; margin-bottom: 12px; }
-    label { display: inline-block; width: 90px; }
-    input[type=text] { width: 420px; }
-    .row { margin: 6px 0; }
-    #log { white-space: pre-wrap; background: #0b0b0b; color: #b9f6ca; padding: 10px; min-height: 240px; border-radius: 6px; }
-    .pill { display:inline-block; padding: 2px 8px; background:#eee; border-radius: 999px; margin-left: 8px; }
-    button { margin-right: 6px; }
-    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
-    .tag { display:inline-block; padding:2px 6px; border:1px solid #ccc; border-radius:8px; margin-right:4px; }
+    body { 
+      font-family: ui-sans-serif, system-ui, Arial, sans-serif; 
+      margin: 16px; 
+      -webkit-text-size-adjust: 100%;
+      -webkit-tap-highlight-color: transparent;
+    }
+    h2 { 
+      margin: 8px 0; 
+      font-size: 18px;
+    }
+    fieldset { 
+      border: 1px solid #ddd; 
+      padding: 12px; 
+      margin-bottom: 12px; 
+      border-radius: 8px;
+    }
+    legend {
+      font-size: 14px;
+      padding: 0 8px;
+    }
+    label { 
+      display: inline-block; 
+      width: 90px; 
+      font-size: 14px;
+    }
+    input[type=text] { 
+      width: 420px; 
+      padding: 8px 12px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      -webkit-appearance: none;
+    }
+    .row { 
+      margin: 6px 0; 
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    #log { 
+      white-space: pre-wrap; 
+      background: #0b0b0b; 
+      color: #b9f6ca; 
+      padding: 10px; 
+      min-height: 240px; 
+      border-radius: 6px; 
+      font-size: 12px;
+      overflow-x: auto;
+    }
+    .pill { 
+      display:inline-block; 
+      padding: 2px 8px; 
+      background:#eee; 
+      border-radius: 999px; 
+      margin-left: 8px; 
+      font-size: 12px;
+    }
+    button { 
+      margin-right: 6px; 
+      padding: 8px 12px;
+      font-size: 14px;
+      min-height: 44px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      background: #f8f9fa;
+      cursor: pointer;
+      -webkit-appearance: none;
+      touch-action: manipulation;
+    }
+    .mono { 
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; 
+    }
+    .tag { 
+      display:inline-block; 
+      padding:2px 6px; 
+      border:1px solid #ccc; 
+      border-radius:8px; 
+      margin-right:4px; 
+    }
+    
+    /* Mobile optimizations */
+    @media (max-width: 480px) {
+      body {
+        margin: 8px;
+      }
+      h2 {
+        font-size: 16px;
+        text-align: center;
+      }
+      fieldset {
+        padding: 10px;
+        margin-bottom: 16px;
+      }
+      legend {
+        font-size: 13px;
+      }
+      label {
+        width: 100%;
+        margin-bottom: 4px;
+        font-size: 13px;
+      }
+      input[type=text] {
+        width: 100%;
+        max-width: 100%;
+        padding: 10px 12px;
+        font-size: 16px;
+        box-sizing: border-box;
+      }
+      .row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 6px;
+      }
+      button {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 4px;
+        padding: 12px 14px;
+        font-size: 14px;
+        min-height: 48px;
+      }
+      #log {
+        font-size: 11px;
+        padding: 8px;
+        min-height: 200px;
+      }
+      .pill {
+        text-align: center;
+        padding: 4px 8px;
+        font-size: 11px;
+        margin-left: 0;
+        margin-top: 4px;
+      }
+      .tag {
+        font-size: 12px;
+        padding: 3px 6px;
+      }
+    }
   </style>
 </head>
 <body>

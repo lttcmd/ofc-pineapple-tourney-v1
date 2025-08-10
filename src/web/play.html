@@ -3,40 +3,163 @@
 <head>
   <meta charset="utf-8" />
   <title>Play – OFC Pineapple</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <style>
     :root { --bg:#0f1115; --fg:#e7e8ea; --muted:#9aa3b2; --accent:#7ee787; --warn:#ffb86b; --drop:#212636; }
-    body { margin:12px; background:var(--bg); color:var(--fg); font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
-    h2 { margin: 6px 0 10px; }
-    .topbar { display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:10px; }
-    .pill { padding:2px 8px; background:#1b2030; border:1px solid #2a3244; border-radius:999px; color:#b7c1d6; }
+    body { 
+      margin: 8px; 
+      background:var(--bg); 
+      color:var(--fg); 
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; 
+      -webkit-text-size-adjust: 100%;
+      -webkit-tap-highlight-color: transparent;
+    }
+    h2 { margin: 6px 0 10px; font-size: 18px; }
+    .topbar { 
+      display:flex; 
+      gap:8px; 
+      align-items:center; 
+      flex-wrap:wrap; 
+      margin-bottom:10px; 
+      padding: 8px 0;
+    }
+    .pill { 
+      padding:4px 8px; 
+      background:#1b2030; 
+      border:1px solid #2a3244; 
+      border-radius:999px; 
+      color:#b7c1d6; 
+      font-size: 12px;
+      white-space: nowrap;
+    }
     .muted { color:#9aa3b2; }
-    button { background:#23293a; color:#e7e8ea; border:1px solid #2a3244; border-radius:8px; padding:8px 12px; cursor:pointer; }
+    button { 
+      background:#23293a; 
+      color:#e7e8ea; 
+      border:1px solid #2a3244; 
+      border-radius:8px; 
+      padding:12px 16px; 
+      cursor:pointer; 
+      font-size: 14px;
+      min-height: 44px;
+      -webkit-appearance: none;
+      touch-action: manipulation;
+    }
     button:hover { border-color:#3b455f; }
     button[disabled] { opacity:.5; cursor:not-allowed; }
-    .grid { display:grid; grid-template-columns: 1fr 360px; gap:12px; }
-    @media (max-width: 980px) { .grid { grid-template-columns: 1fr; } }
+    
+    .grid { 
+      display:grid; 
+      grid-template-columns: 1fr 360px; 
+      gap:12px; 
+    }
+    @media (max-width: 980px) { 
+      .grid { 
+        grid-template-columns: 1fr; 
+        gap: 8px;
+      } 
+    }
+    @media (max-width: 480px) {
+      body { margin: 4px; }
+      .topbar { 
+        flex-direction: column; 
+        align-items: stretch; 
+        gap: 6px;
+      }
+      button { 
+        padding: 14px 16px; 
+        font-size: 16px;
+        min-height: 48px;
+      }
+      .pill { 
+        text-align: center; 
+        padding: 6px 10px;
+      }
+    }
 
     /* Board */
     .board { display:grid; grid-template-columns: 1fr; gap:10px; }
-    .zone { background:var(--drop); border:1px dashed #39415a; border-radius:10px; padding:8px; min-height:64px; }
-    .zone h4 { margin:0 0 6px; color:#b7c1d6; font-weight:600; font-size:14px; display:flex; justify-content:space-between; }
-    .rowline { display:flex; gap:6px; flex-wrap:wrap; min-height:48px; }
+    .zone { 
+      background:var(--drop); 
+      border:1px dashed #39415a; 
+      border-radius:10px; 
+      padding:8px; 
+      min-height:64px; 
+    }
+    .zone h4 { 
+      margin:0 0 6px; 
+      color:#b7c1d6; 
+      font-weight:600; 
+      font-size:14px; 
+      display:flex; 
+      justify-content:space-between; 
+    }
+    .rowline { 
+      display:flex; 
+      gap:6px; 
+      flex-wrap:wrap; 
+      min-height:48px; 
+      align-items: center;
+    }
     .subcap { color:#8ea2c6; font-size:12px; margin-bottom:4px; }
     .zone.dragover { outline:2px solid var(--accent); outline-offset:0; }
 
     /* Hand & Card */
-    .hand { display:flex; gap:8px; flex-wrap:wrap; }
-    .card {
-      display:inline-flex; align-items:center; justify-content:center;
-      width:48px; height:64px; border-radius:6px;
-      background:linear-gradient(180deg,#22283a,#1b2031);
-      border:1px solid #313b55; user-select:none; cursor:grab;
-      font-weight:700; font-size:1.05rem;
-      transition: box-shadow .2s ease;
+    .hand { 
+      display:flex; 
+      gap:8px; 
+      flex-wrap:wrap; 
+      justify-content: center;
+      padding: 8px 0;
     }
-    .card:active { cursor:grabbing; }
-    .newcard { box-shadow: 0 0 0 2px rgba(126,231,135,.4), 0 0 12px rgba(126,231,135,.35) inset; }
+    .card {
+      display:inline-flex; 
+      align-items:center; 
+      justify-content:center;
+      width:48px; 
+      height:64px; 
+      border-radius:6px;
+      background:linear-gradient(180deg,#22283a,#1b2031);
+      border:1px solid #313b55; 
+      user-select:none; 
+      cursor:grab;
+      font-weight:700; 
+      font-size:1.05rem;
+      transition: box-shadow .2s ease, transform .1s ease;
+      -webkit-user-select: none;
+      -webkit-touch-callout: none;
+    }
+    .card:active { 
+      cursor:grabbing; 
+      transform: scale(0.95);
+    }
+    .newcard { 
+      box-shadow: 0 0 0 2px rgba(126,231,135,.4), 0 0 12px rgba(126,231,135,.35) inset; 
+    }
+
+    /* Mobile card sizing */
+    @media (max-width: 480px) {
+      .card {
+        width: 56px;
+        height: 72px;
+        font-size: 1.1rem;
+        margin: 2px;
+      }
+      .hand {
+        gap: 6px;
+        padding: 12px 0;
+      }
+      .rowline {
+        gap: 4px;
+        min-height: 56px;
+      }
+      .zone {
+        padding: 10px;
+        min-height: 72px;
+      }
+    }
 
     /* Suit colors */
     .card.hearts   { color: #ff4d4d; }
@@ -45,13 +168,83 @@
     .card.spades   { color: #e7e8ea; }
 
     /* Right column */
-    #log { white-space:pre-wrap; background:#0b0e17; border:1px solid #2a3244; border-radius:10px; padding:10px; min-height:120px; color:#b9f6ca; }
+    #log { 
+      white-space:pre-wrap; 
+      background:#0b0e17; 
+      border:1px solid #2a3244; 
+      border-radius:10px; 
+      padding:10px; 
+      min-height:120px; 
+      color:#b9f6ca; 
+      font-size: 12px;
+      overflow-x: auto;
+    }
     .small { font-size:12px; color:#b7c1d6; }
     table { width:100%; border-collapse: collapse; }
     th, td { border-bottom:1px solid #2a3244; padding:6px; text-align:left; vertical-align:top; }
     th { color:#9fb0d1; font-weight:600; }
     .reveal-board { margin:6px 0 10px; }
     .rubric { color:#a9b7d6; }
+    
+    /* Mobile table adjustments */
+    @media (max-width: 480px) {
+      table { font-size: 12px; }
+      th, td { padding: 4px 6px; }
+      #log { 
+        font-size: 11px; 
+        padding: 8px;
+        min-height: 100px;
+      }
+    }
+    
+    /* Touch-friendly improvements */
+    @media (max-width: 480px) {
+      fieldset {
+        margin-bottom: 16px;
+        padding: 12px;
+      }
+      legend {
+        font-size: 14px;
+        padding: 0 8px;
+      }
+      
+      /* Prevent text selection on cards */
+      .card {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+      
+      /* Improve touch targets */
+      .zone {
+        min-height: 80px;
+        padding: 12px;
+      }
+      
+      /* Better spacing for mobile */
+      .board {
+        gap: 12px;
+      }
+      
+      /* Ensure buttons are large enough for touch */
+      button {
+        min-width: 44px;
+        min-height: 44px;
+      }
+    }
+    
+    /* Prevent zoom on input focus */
+    @media screen and (-webkit-min-device-pixel-ratio: 0) {
+      input[type="text"],
+      input[type="email"],
+      input[type="password"],
+      input[type="number"],
+      input[type="tel"],
+      input[type="url"] {
+        font-size: 16px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -148,11 +341,85 @@
       el.className = `card ${suitClass(suit)} ${isNew?'newcard':''}`;
       el.textContent = `${rank}${suitSymbol(suit)}`;
       el.draggable = true;
+      
+      // Desktop drag and drop
       el.addEventListener('dragstart', (e)=> {
         e.dataTransfer.setData('text/plain', code);
         e.dataTransfer.dropEffect = 'move';
       });
+      
+      // Mobile touch handling
+      let touchStartX = 0, touchStartY = 0;
+      let isDragging = false;
+      
+      el.addEventListener('touchstart', (e) => {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+        isDragging = false;
+        e.preventDefault();
+      });
+      
+      el.addEventListener('touchmove', (e) => {
+        if (!isDragging) {
+          const deltaX = Math.abs(e.touches[0].clientX - touchStartX);
+          const deltaY = Math.abs(e.touches[0].clientY - touchStartY);
+          if (deltaX > 10 || deltaY > 10) {
+            isDragging = true;
+            el.style.transform = 'scale(0.9)';
+            el.style.opacity = '0.7';
+          }
+        }
+        e.preventDefault();
+      });
+      
+      el.addEventListener('touchend', (e) => {
+        if (isDragging) {
+          el.style.transform = '';
+          el.style.opacity = '';
+          // Find the drop target under the touch point
+          const touch = e.changedTouches[0];
+          const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+          if (elementBelow && elementBelow.closest('.zone')) {
+            const zone = elementBelow.closest('.zone');
+            handleCardDrop(code, zone);
+          }
+        }
+        isDragging = false;
+        e.preventDefault();
+      });
+      
       return el;
+    }
+    
+    function handleCardDrop(code, zone) {
+      if (!code) return;
+
+      const isDiscard = zone.dataset.discard === 'true';
+      if (currentPhase === 'round' && !lastBatch.includes(code)) {
+        alert('This step: only the 3 new cards can be used.'); 
+        return;
+      }
+
+      if (isDiscard) {
+        if (staged.discard) return alert('Discard already staged');
+        if (!myHand.includes(code)) return;
+        myHand = myHand.filter(c => c!==code);
+        staged.discard = code;
+        renderHand(); 
+        refreshBoard(); 
+        return;
+      }
+
+      const row = zone.dataset.row;
+      if (!myHand.includes(code)) return;
+      const limit = row==='top'?3:5;
+      const current = myBoard[row].length + getStagedByRow(row).length;
+      if (current >= limit) return alert(`${row} full`);
+
+      myHand = myHand.filter(c => c!==code);
+      staged.placements.push({ row, card: code });
+      renderHand(); 
+      refreshBoard();
     }
 
     function renderHand() {
@@ -178,35 +445,30 @@
     // drop targets
     function installDrop(zoneId){
       const zone = $(zoneId);
-      zone.addEventListener('dragover', (e)=>{ e.preventDefault(); zone.classList.add('dragover'); });
+      
+      // Desktop drag and drop
+      zone.addEventListener('dragover', (e)=>{ 
+        e.preventDefault(); 
+        zone.classList.add('dragover'); 
+      });
       zone.addEventListener('dragleave', ()=> zone.classList.remove('dragover'));
       zone.addEventListener('drop', (e)=>{
-        e.preventDefault(); zone.classList.remove('dragover');
+        e.preventDefault(); 
+        zone.classList.remove('dragover');
         const code = e.dataTransfer.getData('text/plain');
         if (!code) return;
-
-        const isDiscard = zone.dataset.discard === 'true';
-        if (currentPhase === 'round' && !lastBatch.includes(code)) {
-          alert('This step: only the 3 new cards can be used.'); return;
-        }
-
-        if (isDiscard) {
-          if (staged.discard) return alert('Discard already staged');
-          if (!myHand.includes(code)) return;
-          myHand = myHand.filter(c => c!==code);
-          staged.discard = code;
-          renderHand(); refreshBoard(); return;
-        }
-
-        const row = zone.dataset.row;
-        if (!myHand.includes(code)) return;
-        const limit = row==='top'?3:5;
-        const current = myBoard[row].length + getStagedByRow(row).length;
-        if (current >= limit) return alert(`${row} full`);
-
-        myHand = myHand.filter(c => c!==code);
-        staged.placements.push({ row, card: code });
-        renderHand(); refreshBoard();
+        handleCardDrop(code, zone);
+      });
+      
+      // Mobile touch feedback
+      zone.addEventListener('touchstart', (e) => {
+        zone.classList.add('dragover');
+      });
+      
+      zone.addEventListener('touchend', (e) => {
+        setTimeout(() => {
+          zone.classList.remove('dragover');
+        }, 100);
       });
     }
     ['zoneTop','zoneMiddle','zoneBottom','zoneDiscard'].forEach(installDrop);
